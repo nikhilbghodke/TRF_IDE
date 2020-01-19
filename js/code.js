@@ -13,12 +13,29 @@ function start() {
   Blockly.addChangeListener(renderContent);
 }
 
+function addFunctions(code){
+var setup= "void setup()\t{\n"
+var i;
+for (i = 0; i < Blockly.cake.inputs.length; i++) {
+  setup += "\tpinMode("+Blockly.cake.inputs[i] + ",INPUT)\n";
+}
+for (i = 0; i < Blockly.cake.outputs.length; i++) {
+  setup += "\tpinMode("+Blockly.cake.outputs[i] + ",OUTPUT)\n";
+}
+setup+= "\n}\n";
+var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+var xml_text = Blockly.Xml.domToText(xml);
+console.log(xml_text);
+//console.log(Blockly.cake.outputs);
+return setup+" void loop()\t{\n\t "+code+"\n}";
+}
+
 function renderContent() {
   var content = document.getElementById('code');
-  var code = Blockly.cake.workspaceToCode();
+  var code = addFunctions(Blockly.cake.workspaceToCode());
   content.textContent = code;
   if (typeof prettyPrintOne == 'function') {
-    code = content.innerHTML;
+   code = content.innerHTML;
     code = prettyPrintOne(code, 'c');
     content.innerHTML = code;
   }
