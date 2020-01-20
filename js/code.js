@@ -25,9 +25,9 @@ for (i = 0; i < Blockly.cake.outputs.length; i++) {
 setup+= "\n}\n";
 var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 var xml_text = Blockly.Xml.domToText(xml);
-console.log(xml_text);
+//console.log(xml_text);
 //console.log(Blockly.cake.outputs);
-return setup+" void loop()\t{\n\t "+code+"\n}";
+return setup+" void loop()\t{\n "+code+"\n}";
 }
 
 function renderContent() {

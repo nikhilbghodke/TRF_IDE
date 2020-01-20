@@ -1003,11 +1003,27 @@ Blockly.cake['wait_milisecond'] = function(block) {
   //var value_time = block.getFieldValue('time');
   var delayTime = Blockly.cake.valueToCode(
       block, 'time', Blockly.cake.ORDER_ATOMIC) || '0';
+  if(delayTime<0)
+    this.setWarningText("Enter Positive numbers only");
+  else
+    this.setWarningText(null);
   // TODO: Assemble JavaScript into code variable.
   var code = 'delay('+delayTime+');\n';
   return code;
 };
 
+Blockly.cake['wait_microsecond'] = function(block) {
+  //var value_time = block.getFieldValue('time');
+  var delayTime = Blockly.cake.valueToCode(
+      block, 'time', Blockly.cake.ORDER_ATOMIC) || '0';
+  if(delayTime<0)
+    this.setWarningText("Enter Positive numbers only");
+  else
+    this.setWarningText(null);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'delayMicroseconds('+delayTime+');\n';
+  return code;
+};
 Blockly.cake['io_digitalread'] = function(block) {
   var dropdown_name = block.getFieldValue('NAME');
  var index=Blockly.cake.inputs.indexOf(this.previousValue); 
@@ -1043,7 +1059,7 @@ else
     Blockly.cake.outputs.push(dropdown_pins);
 
   // TODO: Assemble JavaScript into code variable.
-  var code = 'digtalWrite('+dropdown_pins+','+value_state+');';
+  var code = 'digtalWrite('+dropdown_pins+','+value_state+');\n';
   //console.log(Blockly.cake.outputs)
   return code;
 };
@@ -1055,4 +1071,52 @@ Blockly.cake['io_highlow'] = function(block) {
   var code = '...';
   // TODO: Change ORDER_NONE to the correct strength.
   return [dropdown_state, Blockly.cake.ORDER_NONE];
+};
+
+
+
+Blockly.cake['io_analogwrite'] = function(block) {
+  var dropdown_pin = block.getFieldValue('pin');
+  var value_num = Blockly.cake.valueToCode(block, 'num', Blockly.cake.ORDER_ATOMIC);
+
+if(Blockly.FieldTextInput.numberValidator(value_num)!=null)
+{
+  if(value_num<=255&& value_num>=0)
+    this.setWarningText(null);
+  else
+    this.setWarningText("Enter a value between 0 and 255");
+}
+
+  var index=Blockly.cake.outputs.indexOf(this.previousValue); 
+ if(index!=-1)
+    Blockly.cake.outputs.splice(index,1)
+
+ if(Blockly.cake.inputs.indexOf(dropdown_pin)!=-1)
+        this.setWarningText("Pin "+dropdown_pin+" is alraedy used as inputs");
+else
+    this.setWarningText(null);
+
+ if(Blockly.cake.outputs.indexOf(dropdown_pin)==-1)
+    Blockly.cake.outputs.push(dropdown_pin);
+
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'analogWrite('+dropdown_pin+','+value_num+');\n';
+  return code;
+};
+
+Blockly.cake['io_analogread'] = function(block) {
+  var dropdown_pin = block.getFieldValue('pin');
+  var index=Blockly.cake.inputs.indexOf(this.previousValue); 
+ if(index!=-1)
+    Blockly.cake.inputs.splice(index,1)
+
+ if(Blockly.cake.outputs.indexOf(dropdown_pin)!=-1)
+    console.log("Chutiya ho gaya kya"+ dropdown_pin);
+
+ if(Blockly.cake.inputs.indexOf(dropdown_pin)==-1)
+    Blockly.cake.inputs.push(dropdown_pin);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'analogRead('+dropdown_pin+')';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.cake.ORDER_NONE];
 };

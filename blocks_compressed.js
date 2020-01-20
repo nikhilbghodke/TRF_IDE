@@ -849,15 +849,10 @@ Blockly.Blocks.math = {};
 Blockly.Blocks.math_number = {
     init: function() {
         this.setColour(240);
-        this.appendDummyInput().appendField(new Blockly.FieldTextInput("0", Blockly.FieldTextInput.numberValidator), "NUM");
-        this.setOutput(!0, "Number");
+        this.appendDummyInput().appendField(new Blockly.FieldTextInput("123", Blockly.FieldTextInput.numberValidator), "NUM");
+        this.setOutput(true, "Number");
         this.setTooltip(Blockly.Msg.MATH_NUMBER_TOOLTIP);
         this.tag = Blockly.Msg.TAG_MATH_NUMBER
-    },
-    onchange: function() {
-        Blockly.Blocks.requireInFunction();
-        var a = this.getFieldValue("NUM");
-        0 == a ? this.changeOutput("Number") : 0 === a % 1 || a.match(/-/) ? 0 < a ? this.changeOutput("INT") : this.changeOutput("NEGATIVE") : this.changeOutput("DOUBLE")
     }
 };
 Blockly.Blocks.math_arithmetic = {
@@ -910,6 +905,7 @@ Blockly.Blocks.library_math_abs = {
     },
     onchange: Blockly.Blocks.requireInFunction
 };
+
 Blockly.Blocks.library_math_trig = {
     init: function() {
         var a = [
@@ -3294,10 +3290,26 @@ Blockly.Blocks['wait_milisecond'] = {
   }
 };
 
-
+Blockly.Blocks['wait_microsecond'] = {
+  init: function() {
+    this.appendValueInput("time")
+        .setCheck("Number")
+        .appendField("wait");
+    this.appendDummyInput()
+        .appendField("microsecond");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
 var arduinoDigitalPins=[["0","0"],["1","1"],["2","2"],["3","3"],["4","4"],["5","5"],["6","6"],["7","7"],["8","8"],["9","9"]
                         ,["10","10"],["11","11"],["12","12"],["13","13"],["A0","A0"],["A1","A1"],["A2","A2"],
                         ["A3","A3"],["A4","A4"],["A5","A5"]];
+var arduinoAnalogPinWrite=[["3","3"],["5","5"],["6","6"],["9","9"],["10","10"],["11","11"]];
+var arduinoAnalogPinRead=[["A0","A0"],["A1","A1"],["A2","A2"],["A3","A3"],["A4","A4"],["A5","A5"]];
 
 
 Blockly.Blocks['io_digitalread'] = {
@@ -3353,3 +3365,38 @@ Blockly.Blocks['io_highlow'] = {
 };
 
 
+Blockly.Blocks['io_analogwrite'] = {
+  init: function() {
+    this.previousValue="3";
+    this.appendValueInput("num")
+        .setCheck("Number")
+        .appendField("set  analog pin #")
+        .appendField(new Blockly.FieldDropdown(arduinoAnalogPinWrite), "pin");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  },
+  onchange: function(event) {
+    this.previousValue=this.getFieldValue("pin");
+    }
+};
+
+Blockly.Blocks['io_analogread'] = {
+  init: function() {
+    this.previousValue="A0";
+    this.appendDummyInput()
+        .appendField("read  analog pin #")
+        .appendField(new Blockly.FieldDropdown(arduinoAnalogPinRead), "pin");
+    this.setOutput(true, "Number");
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  },
+      onchange: function(event) {
+        console.log(this.previousValue);
+        console.log(this.getFieldValue("pin"));
+    this.previousValue=this.getFieldValue("pin");
+    }
+};
