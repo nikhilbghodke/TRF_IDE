@@ -3400,3 +3400,27 @@ Blockly.Blocks['io_analogread'] = {
     this.previousValue=this.getFieldValue("pin");
     }
 };
+
+Blockly.Blocks['stepper_rotate'] = {
+  init: function() {
+    this.previousValue="3";
+    this.appendValueInput("angle")
+        .setCheck("Number")
+        .appendField("set SERVO  from  Pin")
+        .appendField(new Blockly.FieldDropdown(arduinoAnalogPinWrite), "pin")
+        .appendField("by");
+    this.appendDummyInput()
+        .appendField("Degrees (0~180)");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  },
+  onchange: function(event) {
+        console.log(this.previousValue);
+        console.log(this.getFieldValue("pin"));
+    this.previousValue=this.getFieldValue("pin");
+    }
+};

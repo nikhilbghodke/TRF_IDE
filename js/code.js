@@ -27,7 +27,7 @@ var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
 var xml_text = Blockly.Xml.domToText(xml);
 //console.log(xml_text);
 //console.log(Blockly.cake.outputs);
-return setup+" void loop()\t{\n "+code+"\n}";
+return Blockly.cake.header+setup+" void loop()\t{\n "+code+"\n}";
 }
 
 function renderContent() {

@@ -998,6 +998,8 @@ Blockly.cake.variables_array_declare = function(a) {
 
 Blockly.cake.inputs=[];
 Blockly.cake.outputs=[];
+Blockly.cake.setUp="";
+Blockly.cake.header="";
 
 Blockly.cake['wait_milisecond'] = function(block) {
   //var value_time = block.getFieldValue('time');
@@ -1119,4 +1121,40 @@ Blockly.cake['io_analogread'] = function(block) {
   var code = 'analogRead('+dropdown_pin+')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.cake.ORDER_NONE];
+};
+
+
+Blockly.cake['stepper_rotate'] = function(block) {
+  var dropdown_pin = block.getFieldValue('pin');
+  var value_angle = Blockly.cake.valueToCode(block, 'angle', Blockly.cake.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+
+if(Blockly.FieldTextInput.numberValidator(value_angle)!=null)
+{
+  if(value_angle<=180&& value_angle>=0)
+    this.setWarningText(null);
+  else
+    this.setWarningText("Enter a value between 0 and 180");
+}
+
+  var index=Blockly.cake.outputs.indexOf(this.previousValue); 
+ if(index!=-1)
+    Blockly.cake.outputs.splice(index,1)
+
+ if(Blockly.cake.inputs.indexOf(dropdown_pin)!=-1)
+        this.setWarningText("Pin "+dropdown_pin+" is alraedy used as inputs");
+else
+    this.setWarningText(null);
+
+ if(Blockly.cake.outputs.indexOf(dropdown_pin)==-1)
+    Blockly.cake.outputs.push(dropdown_pin);
+    
+var library="#include <Servo.h>\n";
+var globalVar="Servo myServo"+dropdown_pin;
+if(!Blockly.cake.header.includes(library))
+    Blockly.cake.header+=library;
+if(!Blockly.cake.header.includes(globalVar))
+    Blockly.cake.header+="Servo myServo"+dropdown_pin+";\n";
+  var code = 'myServo'+dropdown_pin+'.write('+value_angle+');\n';
+  return code;
 };
