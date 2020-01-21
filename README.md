@@ -19,4 +19,13 @@
  The code currently can be downloaded after finishing the coding part, but it would be great if the code could be saved to users personal drive. This will include concepts like API and authorization and access token. (i am particularly interested in this stuff).
  
  ### 4) Write our Library that extends Google Blockly to support.
- As i have previoulsy said that we are currently extending this [library](https://github.com/cra16/cake-core) for C 
+ As i have previoulsy said that we are currently extending this [library](https://github.com/cra16/cake-core) for C. I have some serious concerns on using cake core, as lacks many features available in current blockly version. It would we great if ourself could extend Blockly to support C. In this way we will learn alot and probably write better quality Blockly core. I am mostly targerting the learning part, as it seems exciting to me!!!!
+ 
+ ### 5) Create Documentation for users regarding hardware connections and if possible also draw a schematic for ur hardware connections
+ Our library can generate documentation regarding automatically as user writes his code. Let me take an example lets say if the uses uses a Servo motor code block to write code that turns the motor by 90 degree. and the user using our blocks will have to specify he will connect the servo at a particular pin lets say pin 3. Then we can automatically generate a harware documentation, stating that the user is using servo motor and it should be connected to pin 3. also we can add information regarding servo configurations as well. Now this feature might look silly, but i think it is very useful as the code will document itself and does need gop through the code to understand hardware connections. It will also come handy to represent this documentation somewhere without taking extra efforts.
+ 
+ ### 6) After commpleting all the above said things we can try to make offline desktop
+ according to current implementation the IDE is web based ( all it processing is done on client side ). But it would be better if we are able to make a desktop app for the same.
+ 
+ 
+ ### Above we are not the first one to create such IDE but its worth giving a shot surely our IDE will have some better features which every IDE out there lacks, and it would be a graet learning experience. I am planning to code on this project for next 2-3 weeks afetr which i will just guide students for improvemnets....
